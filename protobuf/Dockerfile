@@ -18,7 +18,8 @@ RUN         apk add --no-cache --virtual .build-deps \
 
 WORKDIR     protobuf-${python_protobuf_version}
 
-RUN         ./configure && \
-            make -j 8 install && \
+RUN         ./configure CFLAGS=-fPIC CXXFLAGS=-fPIC && \
+            make && \
+            make install && \
             cd python && \
-            python setup.py build --cpp_implementation
+            python setup.py bdist_wheel --cpp_implementation --compile_static_extension
