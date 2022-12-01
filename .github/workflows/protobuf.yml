@@ -16,8 +16,8 @@ jobs:
         python:
         - "3.10"
         include:
-        - protobuf_version: 3.20.3
-          python_protobuf_version: 3.20.3
+        - protobuf_version: "3.20.3"
+          python_protobuf_version: "3.20.3"
 
     steps:
     - name: Checkout
