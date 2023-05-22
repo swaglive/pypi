@@ -11,6 +11,9 @@ ENV         REPO_ROOT=grpc
 RUN         apk add --no-cache --virtual .build-deps \
                 build-base \
                 g++ \
+                musl-dev \
+                libffi-dev \
+                g++ \
                 git && \
             git clone -b v$grpc_version https://github.com/grpc/grpc $REPO_ROOT
 
