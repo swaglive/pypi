@@ -10,7 +10,6 @@ ENV         REPO_ROOT=grpc
 
 RUN         apk add --no-cache --virtual .build-deps \
                 build-base \
-                g++ \
                 musl-dev \
                 libffi-dev \
                 g++ \
