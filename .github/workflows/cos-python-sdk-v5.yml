@@ -1,0 +1,48 @@
+name: Build cos-sdk
+
+on:
+  push:
+    paths: 
+    - cos-python-sdk-v5/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup - buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Setup - Github Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+
+    - name: Setup - Docker image metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: |
+            ghcr.io/${{ github.repository }}
+        tags: |
+            type=sha,priority=1000
+
+    - name: Build
+      uses: docker/build-push-action@v3
+      id: build
+      with:
+        context: cos-python-sdk-v5
+        platforms: linux/amd64,linux/arm64, linux/arm64/v8       
+        # push: true
+        # tags: ${{ steps.meta.outputs.tags }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
